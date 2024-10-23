@@ -5,7 +5,7 @@ FROM ruby:3.3.5
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs postgresql-client yarn
 
 # Definir o diretório de trabalho no container
-WORKDIR /app
+WORKDIR /traceguard
 
 # Copiar Gemfile e Gemfile.lock
 COPY Gemfile Gemfile.lock ./
