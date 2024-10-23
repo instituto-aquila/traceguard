@@ -1,0 +1,105 @@
+# swagger/v1/swagger.yaml
+openapi: 3.0.1
+info:
+  title: API de Monitoramento
+  version: v1
+paths:
+  /api/v1/monitoring:
+    post:
+      summary: Cria novo registro de monitoramento
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    ip:
+                      type: string
+                application_id:
+                  type: integer
+                date:
+                  type: string
+                  format: date
+                pages_visited:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      page_url:
+                        type: string
+                      start_time:
+                        type: string
+                        format: date-time
+                      end_time:
+                        type: string
+                        format: date-time
+                      duration_seconds:
+                        type: integer
+                      publication_id:
+                        type: integer
+                      publication_title:
+                        type: string
+      responses:
+        '201':
+          description: Created
+        '422':
+          description: Unprocessable Entity
+  /api/v1/error_logs:
+    post:
+      summary: Cria novo registro de erro
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: integer
+                erro:
+                  type: string
+                backtrace:
+                  type: string
+                application_id:
+                  type: integer
+                url:
+                  type: string
+                http_method:
+                  type: string
+                date:
+                  type: string
+                  format: date-time
+                status_id:
+                  type: integer
+                user:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    ip:
+                      type: string
+      responses:
+        '201':
+          description: Created
+        '422':
+          description: Unprocessable Entity
