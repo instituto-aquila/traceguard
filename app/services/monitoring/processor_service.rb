@@ -11,11 +11,9 @@ module Monitoring
     def process
       ActiveRecord::Base.transaction do
         create_or_update_user
-        create_monitoring
+        find_or_create_monitoring
         create_pages_visited
       end
-      
-      MonitoringWorker.perform_async(@monitoring.id)
       true
     rescue StandardError => e
       @errors << e.message
@@ -32,12 +30,20 @@ module Monitoring
       )
     end
     
-    def create_monitoring
-      @monitoring = UserMonitoring.create!(
-        user: @user,
-        application_id: @params[:application_id],
-        date: @params[:date]
-      )
+    def find_or_create_monitoring
+      date_threshold = @params[:date].to_date - 7.days
+      @monitoring = UserMonitoring.where(user: @user)
+                                  .where('date >= ?', date_threshold)
+                                  .order(date: :desc)
+                                  .first
+
+      unless @monitoring
+        @monitoring = UserMonitoring.create!(
+          user: @user,
+          application_id: @params[:application_id],
+          date: @params[:date]
+        )
+      end
     end
     
     def create_pages_visited

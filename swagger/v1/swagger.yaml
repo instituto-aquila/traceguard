@@ -6,6 +6,8 @@ info:
 paths:
   /api/v1/monitoring:
     post:
+      tags:
+        - Monitoring
       summary: Cria novo registro de monitoramento
       parameters:
         - name: Authorization
@@ -59,6 +61,8 @@ paths:
           description: Unprocessable Entity
   /api/v1/error_logs:
     post:
+      tags:
+        - Error Logs
       summary: Cria novo registro de erro
       parameters:
         - name: Authorization

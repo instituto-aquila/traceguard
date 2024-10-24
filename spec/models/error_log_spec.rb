@@ -14,8 +14,8 @@ RSpec.describe ErrorLog, type: :model do
   end
 
   describe 'scopes' do
-    let!(:status1) { create(:status, id: 1, color: '#FF5733') }
-    let!(:status2) { create(:status, id: 2, color: '#33FF57') }
+    let!(:status1) { create(:status) }
+    let!(:status2) { create(:status) }
     let!(:error_log1) { create(:error_log, date: 2.days.ago, status: status1) }
     let!(:error_log2) { create(:error_log, date: 5.days.ago, status: status2) }
     let!(:error_log3) { create(:error_log, date: 10.days.ago, status: status1) }
@@ -26,8 +26,8 @@ RSpec.describe ErrorLog, type: :model do
     end
 
     it 'returns error logs with the specified status' do
-      expect(ErrorLog.by_status(1)).to include(error_log1, error_log3)
-      expect(ErrorLog.by_status(1)).not_to include(error_log2)
+      expect(ErrorLog.by_status(status1.id)).to include(error_log1, error_log3)
+      expect(ErrorLog.by_status(status1.id)).not_to include(error_log2)
     end
   end
 
