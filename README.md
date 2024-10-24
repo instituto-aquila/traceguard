@@ -2,7 +2,8 @@
 
 ## Instruções para instalação:
 
-Para iniciar o projeto rode: `docker-compose up --build`
+Para criar e iniciar o projeto rode: `docker-compose up --build`
+Para apenas rodar o projeto rode: `docker-compose up`
 
 ## Acessar a documentação da API 
 
