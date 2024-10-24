@@ -1,3 +1,4 @@
+# spec/factories/error_logs.rb
 FactoryBot.define do
   factory :error_log do
     code { Faker::Number.between(from: 100, to: 599) }

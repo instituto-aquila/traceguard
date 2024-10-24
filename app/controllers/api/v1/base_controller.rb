@@ -10,9 +10,8 @@ module Api
       
       def authenticate
         authenticate_or_request_with_http_token do |token, options|
-          JWT.decode(token, Rails.application.credentials.secret_key_base)
-        rescue JWT::DecodeError
-          head :unauthorized
+          @application = Application.find_by(api_key: token)
+          @application.present?
         end
       end
     end

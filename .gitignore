@@ -30,3 +30,4 @@
 
 Gemfile.lock
 .env
+/db/schema.rb
