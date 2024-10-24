@@ -30,5 +30,9 @@ module TraceGuardIgmatech
     config.api_only = true
 
     config.active_job.queue_adapter = :sidekiq
+
+    # Habilitar middleware de cookies e sessões
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
   end
 end
