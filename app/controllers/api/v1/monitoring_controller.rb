@@ -3,17 +3,17 @@ module Api
   module V1
     class MonitoringController < BaseController
       def create
-        monitoring_service = Monitoring::ProcessorService.new(monitoring_params)
-        
-        if monitoring_service.process
-          render json: { status: 'success' }, status: :created
+        if valid_monitoring_params?
+          job_params = JSON.parse(monitoring_params.to_h.to_json)
+          MonitoringWorker.perform_async(job_params)
+          render json: { status: 'success', message: 'Monitoring data is being processed' }, status: :accepted
         else
-          render json: { errors: monitoring_service.errors }, status: :unprocessable_entity
+          render json: { errors: ['Invalid parameters'] }, status: :unprocessable_entity
         end
       end
-      
+
       private
-      
+
       def monitoring_params
         params.permit(
           :application_id,
@@ -21,6 +21,13 @@ module Api
           user: [:name, :email, :ip],
           pages_visited: [:page_url, :start_time, :end_time, :duration_seconds, :publication_id, :publication_title]
         )
+      end
+
+      def valid_monitoring_params?
+        monitoring_params[:application_id].present? &&
+        monitoring_params[:date].present? &&
+        monitoring_params.dig(:user, :email).present? &&
+        monitoring_params[:pages_visited].present?
       end
     end
   end

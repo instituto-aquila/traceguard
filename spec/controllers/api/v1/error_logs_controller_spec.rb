@@ -27,24 +27,32 @@ RSpec.describe Api::V1::ErrorLogsController, type: :controller do
       request.headers['Authorization'] = "Token token=#{application.api_key}"
     end
 
-    context 'com parâmetros válidos' do
-      it 'cria um novo registro de erro' do
-        expect {
-          post :create, params: valid_params
-        }.to change { ErrorLog.count }.by(1)
+    context 'with valid params' do
+      it 'enqueues a worker and returns accepted status' do
+        Sidekiq::Testing.fake! do
+          expect {
+            post :create, params: valid_params
+          }.to change(ErrorLogWorker.jobs, :size).by(1)
 
-        expect(response).to have_http_status(:created)
-        expect(JSON.parse(response.body)['status']).to eq('success')
+          expect(response).to have_http_status(:accepted)
+          expect(JSON.parse(response.body)['status']).to eq('success')
+        end
+      end
+
+      it 'processes the monitoring data when job is performed' do
+        Sidekiq::Testing.inline! do
+          expect {
+            post :create, params: valid_params
+          }.to change(ErrorLog, :count).by(1)
+        end
       end
     end
 
-    context 'com parâmetros inválidos' do
+    context 'with invalid params' do
       let(:invalid_params) { valid_params.except(:code) }
 
-      it 'não cria um novo registro de erro' do
-        expect {
-          post :create, params: invalid_params
-        }.not_to change { ErrorLog.count }
+      it 'returns unprocessable entity status' do
+        post :create, params: invalid_params
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body)).to have_key('errors')

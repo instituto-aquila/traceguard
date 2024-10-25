@@ -1,6 +1,8 @@
+# spec/rails_helper.rb
 require 'spec_helper'
 require 'factory_bot_rails'
 require 'shoulda/matchers'
+require 'sidekiq/testing'
 
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'

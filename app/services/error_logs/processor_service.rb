@@ -1,6 +1,8 @@
 # app/services/error_logs/processor_service.rb
 module ErrorLogs
   class ProcessorService
+    class ProcessingError < StandardError; end
+
     attr_reader :errors
     
     def initialize(params)
@@ -9,12 +11,11 @@ module ErrorLogs
     end
     
     def process
+      validate_params!
       ActiveRecord::Base.transaction do
         create_or_update_user
         create_error_log
       end
-      
-      ErrorLogWorker.perform_async(@error_log.id)
       true
     rescue StandardError => e
       @errors << e.message
@@ -22,6 +23,16 @@ module ErrorLogs
     end
     
     private
+
+    def validate_params!
+      raise ProcessingError, "Date is required" unless @params[:date].present?
+      raise ProcessingError, "Application ID is required" unless @params[:application_id].present?
+      raise ProcessingError, "User email is required" unless @params.dig(:user, :email).present?
+      raise ProcessingError, "Code is required" unless @params[:code].present?
+      raise ProcessingError, "Erro is required" unless @params[:erro].present?
+      raise ProcessingError, "Status ID is required" unless @params[:status_id].present?
+      raise ProcessingError, "URL is required" unless @params[:url].present?
+    end
     
     def create_or_update_user
       @user = User.find_or_create_by_email(

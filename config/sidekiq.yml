@@ -1,0 +1,5 @@
+# congif/sidekiq.yml
+:queues:
+  - default
+  - monitoring
+  - error_logs

@@ -55,8 +55,8 @@ paths:
                       publication_title:
                         type: string
       responses:
-        '201':
-          description: Created
+        '202':
+          description: Accepted
         '422':
           description: Unprocessable Entity
   /api/v1/error_logs:
@@ -103,7 +103,7 @@ paths:
                     ip:
                       type: string
       responses:
-        '201':
-          description: Created
+        '202':
+          description: Accepted
         '422':
           description: Unprocessable Entity
