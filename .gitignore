@@ -31,3 +31,5 @@
 Gemfile.lock
 .env
 /db/schema.rb
+
+/config/master.key
