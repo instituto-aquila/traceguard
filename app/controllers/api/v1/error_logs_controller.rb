@@ -11,6 +11,20 @@ module Api
           render json: { errors: ['Invalid parameters'] }, status: :unprocessable_entity
         end
       end
+
+      def index     
+        @q = ErrorLog
+            .by_code(params[:code])
+            .by_application(params[:application_id])
+
+        relations = [application: { except: [:api_key] }]
+
+        render json: ActiveSupport::JSON.decode(@q.to_json(include: relations)), status: 200
+
+        return
+
+        render json: paginate_return(params, @q, relations)
+      end  
       
       private
       

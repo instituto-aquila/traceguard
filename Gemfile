@@ -13,6 +13,7 @@ gem 'blueprinter', '~> 1.1', '>= 1.1.2'
 gem 'oj', '~> 3.16', '>= 3.16.6'
 gem 'rack-attack', '~> 6.7'
 
+gem 'will_paginate', '~> 3.3'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]

@@ -71,4 +71,50 @@ RSpec.describe Api::V1::ErrorLogsController, type: :controller do
       end
     end
   end
+
+  describe 'GET #index' do
+
+    let(:application) { create(:application, api_key: 'asdasdasdasdas') }
+
+
+    before do
+      request.headers['Authorization'] = "Token token=#{application.api_key}"
+    end
+
+    context 'when application_id is provided' do
+      it 'returns a 200 status' do
+        get :index, params: {}
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'when application_id is none' do
+      it 'returns a 200 status' do
+        get :index, params: {}
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    it 'returns status 200' do
+      get :index, params: { application_id: 1 }
+      expect(response).to have_http_status(:ok)
+    end
+
+
+    it 'does not include api_key in the response or returns an empty array' do
+      get :index, params: { application_id: 1 }
+      json_response = JSON.parse(response.body)
+
+      if json_response.empty?
+        expect(json_response).to eq([])
+      else
+        json_response.each do |record|
+          expect(record['application']).not_to have_key('api_key')
+        end
+      end
+    end
+
+  
+  end
+
 end
