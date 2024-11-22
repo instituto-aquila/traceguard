@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :monitoring
       resources :error_logs
+      get '/all-applications', to: 'error_logs#all_applications'
     end
   end
   

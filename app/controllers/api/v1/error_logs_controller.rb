@@ -17,13 +17,21 @@ module Api
             .by_code(params[:code])
             .by_application(params[:application_id])
 
-        relations = [application: { except: [:api_key] }]
+        selected_fields = @q
 
-        render json: ActiveSupport::JSON.decode(@q.to_json(include: relations)), status: 200
+        relations = [application: { except: [:api_key] }, status: {only: [:id, :name]}]
 
-        return
+        render json: paginate_return(params, selected_fields, @q.count, relations)
+      end  
 
-        render json: paginate_return(params, @q, relations)
+      def all_applications
+        @q = Application
+           
+        selected_fields = @q.select(:id, :name)
+
+        relations = []
+
+        render json: paginate_return(params, selected_fields, @q.count, relations)
       end  
       
       private
