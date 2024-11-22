@@ -15,17 +15,16 @@ module Api
         end
       end
 
-      def paginate_return(params, q, relations = nil) # rubocop:todo Metrics/AbcSize, Naming/MethodParameterName
+      def paginate_return(params, selected_fields, total, relations = nil) # rubocop:todo Metrics/AbcSize, Naming/MethodParameterName
         # rubocop:enable Naming/MethodParameterName
         page = params[:page].to_i || 0
         per_page = params[:per_page] || 25
         per_page = per_page.to_i
-        total = q.count
     
         # q.sorts = [params[:order]] if params[:order].present?
         # q.sorts = ['name asc'] if !params[:order].present?
     
-        list = q.paginate(page: page + 1, per_page: per_page)
+        list = selected_fields.paginate(page: page + 1, per_page: per_page)
         if relations
           list = ActiveSupport::JSON.decode(list.to_json(include: relations))
         end
