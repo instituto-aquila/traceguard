@@ -14,7 +14,8 @@ statuses = [
   { name: 'Em execução', color: "0000ff" },
   { name: 'Concluído com sucesso', color: "00ff00" },
   { name: 'Aguardando coleta', color: "aaff00" },
-  { name: 'Falha na coleta', color: "ff0000" }
+  { name: 'Falha na coleta', color: "ff0000" },
+  { name: 'Erro na aplicação', color: "ff0000" },
 ]
 
 statuses.each do |status|
@@ -29,6 +30,7 @@ applications = [
     {name: "Coletor IGMA"},
     {name: "Data Aquila"},
     {name: "Fabrica Virtual"},
+    {name: "Intranet"}
 ]
 
 applications.each do |app|
