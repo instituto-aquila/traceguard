@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd home/ubuntu/repo/traceguard/
+cd ../
 
 docker stop $(docker ps --filter ancestor=traceguard-app -q)
 
