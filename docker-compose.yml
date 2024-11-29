@@ -33,7 +33,7 @@ services:
       DB_HOST: db-prd-02.aquila.com.br
       DB_PORT: 5432
       DB_USERNAME: master
-      DB_PASSWORD: 4e21 215m
+      DB_PASSWORD: '4e21 215m'
       DATABASE: traceguard
       REDIS_URL: redis://redis:6379/1
     depends_on:
@@ -52,7 +52,7 @@ services:
       DB_HOST: db-prd-02.aquila.com.br
       DB_PORT: 5432
       DB_USERNAME: master
-      DB_PASSWORD: 4e21 215m
+      DB_PASSWORD: '4e21 215m'
       DATABASE: traceguard
       REDIS_URL: redis://redis:6379/1
     depends_on:
