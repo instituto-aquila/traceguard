@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: home/ubuntu/repo/traceguard/
+    destination: /home/ubuntu/repo/traceguard
 file_exists_behavior: OVERWRITE
 
 
@@ -12,4 +12,3 @@ hooks:
       runas: ubuntu
       timeout: 300
       allow_failure: false
-      
