@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Preparing Docker Compose...
+
+  build:
+    commands:
+      - echo Building and testing containers...
+      - echo "Making scripts executable"
+      - chmod +x script/deploy.sh
+
+artifacts:
+  files:
+    - '**/*'
