@@ -2,6 +2,6 @@
 
 cd ../
 
-docker stop $(docker ps --filter ancestor=traceguard-app -q)
+docker stop traceguard-app-1
 
 docker-compose up -d --build
