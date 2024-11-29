@@ -4,4 +4,4 @@ cd ../
 
 docker stop traceguard-app-1
 
-docker-compose up -d --build
+docker-compose -f docker-compose.yml up -d --build
